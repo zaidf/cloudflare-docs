@@ -267,30 +267,43 @@ These methods are all accessed via `crypto.subtle`, which is also [documented in
 
 ### Supported algorithms
 
-Workers implements a subset of the most common cryptographic algorithms, as shown in the following table. We are happy to add support for more algorithms — [let us know about your use case](https://community.cloudflare.com/c/developers/workers).
+Workers implements all operation of the [WebCrypto standard](https://www.w3.org/TR/WebCryptoAPI), as shown in the following table.
+We are happy to add support for more algorithms — [let us know about your use case](https://community.cloudflare.com/c/developers/workers).
+
+A checkmark (✓) indicates that this feature is believed to be fully supported according to the spec.
+[//]: #  An x (✘) indicates that this feature is part of the specification but not implemented.
+[//]: #  If a feature only implements the operation partially, details are listed.
 
 <TableWrap>
 
-| Algorithm                                 | sign()<br/>verify() | encrypt()<br/>decrypt() | digest() | deriveBits()<br/>deriveKey() | generateKey() | wrapKey()<br/>unwrapKey() | exportKey() |
-| :---------------------------------------- | :------------------ | :---------------------- | :------- | :--------------------------- | :------------ | :------------------------ | ----------- |
-| RSASSA-PKCS1-v1_5                         | ✓                   |                         |          |                              | ✓             |                           | ✓           |
-| RSA-PSS                                   | ✓                   |                         |          |                              | ✓             |                           | ✓           |
-| ECDSA                                     | ✓                   |                         |          |                              |               |                           | ✓           |
-| HMAC                                      | ✓                   |                         |          |                              | ✓             |                           |             |
-| AES-CBC                                   |                     | ✓                       |          |                              |               | ✓                         |             |
-| AES-GCM                                   |                     | ✓                       |          |                              | ✓             | ✓                         |             |
-| SHA-1                                     |                     |                         | ✓        |                              |               |                           |             |
-| SHA-256                                   |                     |                         | ✓        |                              |               |                           |             |
-| SHA-384                                   |                     |                         | ✓        |                              |               |                           |             |
-| SHA-512                                   |                     |                         | ✓        |                              |               |                           |             |
-| MD5<sup><a href="#footnote-1">1</a></sup> |                     |                         | ✓        |                              |               |                           |             |
-| PBKDF2                                    |                     |                         |          | ✓                            |               |                           |             |
+| Algorithm                                         | sign()<br/>verify()  | encrypt()<br/>decrypt()   | digest() | deriveBits()<br/>deriveKey() | generateKey() | wrapKey()<br/>unwrapKey() | exportKey() | importKey() |
+| :------------------------------------------------ | :------------------- | :------------------------ | :------- | :--------------------------- | :------------ | :------------------------ | :---------- | :---------- |
+| RSASSA PKCS1 v1.5                                 | ✓                    |                           |          |                              | ✓             |                           | ✓           | ✓           |
+| RSA PSS                                           | ✓                    |                           |          |                              | ✓             |                           | ✓           | ✓           |
+| RSA OAEP                                          |                      | ✓                         |          |                              | ✓             | ✓                         | ✓           | ✓           |
+| ECDSA                                             | ✓                    |                           |          |                              | ✓             |                           | ✓           | ✓           |
+| ECDH                                              |                      |                           |          | ✓                            | ✓             |                           | ✓           | ✓           |
+| NODE ED25519<sup><a href="#footnote 1">1</a></sup>| ✓                    |                           |          |                              | ✓             |                           | ✓           | ✓           |
+| AES CTR                                           |                      | ✓                         |          |                              | ✓             | ✓                         | ✓           | ✓           |
+| AES CBC                                           |                      | ✓                         |          |                              | ✓             | ✓                         | ✓           | ✓           |
+| AES GCM                                           |                      | ✓                         |          |                              | ✓             | ✓                         | ✓           | ✓           |
+| AES KW                                            |                      |                           |          |                              | ✓             | ✓                         | ✓           | ✓           |
+| HMAC                                              | ✓                    |                           |          |                              | ✓             |                           | ✓           | ✓           |
+| SHA 1                                             |                      |                           | ✓        |                              |               |                           |             |             |
+| SHA 256                                           |                      |                           | ✓        |                              |               |                           |             |             |
+| SHA 384                                           |                      |                           | ✓        |                              |               |                           |             |             |
+| SHA 512                                           |                      |                           | ✓        |                              |               |                           |             |             |
+| MD5<sup><a href="#footnote 2">2</a></sup>         |                      |                           | ✓        |                              |               |                           |             |             |
+| HKDF                                              |                      |                           |          | ✓                            |               |                           |             | ✓           |
+| PBKDF2                                            |                      |                           |          | ✓                            |               |                           |             | ✓           |
 
 </TableWrap>
 
 __Footnotes:__
 
-1. <a name="footnote-1"></a> MD5 is not part of the WebCrypto standard, but is supported in Cloudflare Workers for interacting with legacy systems that require MD5. MD5 is considered a weak algorithm. Do not rely upon MD5 for security.
+1. <a name="footnote-1"></a> Non-standard EdDSA is supported for the Ed25519 curve. Use <Code>NODE-ED25519</Code> as the algorithm and namedCurve parameters. The one difference with NodeJS currently is that we will not support "raw" import of private
+keys. Since this algorithm is non-standard, we cannot guarantee stabilty of the implementation. If there are changes here, we will strive to make them backward compatible & also to maintain compatability with NodeJS's behavior.
+2. <a name="footnote-2"></a> MD5 is not part of the WebCrypto standard, but is supported in Cloudflare Workers for interacting with legacy systems that require MD5. MD5 is considered a weak algorithm. Do not rely upon MD5 for security.
 
 --------------------------------
 
