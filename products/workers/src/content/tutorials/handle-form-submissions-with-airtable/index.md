@@ -47,13 +47,13 @@ The `id` attribute, while not required for the `input` to be submitted as part o
 
 </Aside>
 
-For example, if I fill in the `first_name` `input` with the text "Kristian", submitting the `form` via the "Submit" `button` will submit data to the URL `/new_submission` with the data `first_name=Hello`.
+For example, if I fill in the `input[name=first_name]` with the text "Kristian", submitting the `form` via the "Submit" `button` will send the data `first_name=Kristian` to the `/new_submission` URL.
 
 The `form` used in the example front-end UI builds on these basics, adding some CSS classes via Tailwind CSS, and adding the fields needed for a "Contact"-style form: "First name", "Last name", "Email", "Phone", "Subject", and "Message".
 
 ![The completed form in the front-end user interface](./ui.png)
 
-The code for this form can be [found on GitHub](https://github.com/signalnerve/workers-airtable-form/blob/main/frontend/src/Form.js). Of particular note is the `form` action, which has a placeholder for our serverless function URL, and the `method` attribute, which tells the form to submit using an [HTTP POST](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/POST). 
+The code for this form can be [found on GitHub](https://github.com/signalnerve/workers-airtable-form/blob/main/frontend/src/Form.js). Of particular note is the `form` action, which has a placeholder for our serverless function URL, and the `method` attribute, which tells the form to submit using the [HTTP POST](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/POST) method. 
 
 Some sample code is provided as an example below, including the first `input`, to show that the `name` is set to the value `first_name`, as well as the standard `button` with `type="submit"`:
 
@@ -88,7 +88,7 @@ If you'd like to follow along with this example, you can directly copy the `form
 
 ## Create a serverless function
 
-In order to handle the form submission, we'll create and deploy a Workers serverless function that parses the incoming form data, and prepares it for submission to Airtable.
+In order to handle the form submission, we'll create and deploy a Workers serverless function that parses the incoming form data and then prepares it for submission to Airtable.
 
 To begin, use `wrangler` to generate a new function, called `airtable-form-handler`, and navigate to it in our terminal:
 
@@ -258,7 +258,7 @@ While the majority of this function is concerned with parsing the request _body_
 
 The variable `reqBody` represents a collection of _fields_, which are key-value pairs for each column in our Airtable table. By formatting `reqBody` as an object with a collection of fields, we're creating a new record in our table with a value for each field.
 
-After we call `createAirtableRecord` (the function we'll define next), we'll redirect the client back to our `FORM_URL`. This function can be changed: for instance, to redirect to a "Thank You" page, or something similar.
+After we call `createAirtableRecord` (the function we'll define next), we'll redirect the client back to our `FORM_URL`. This function can be changed; for instance, it can redirect to a "Thank You" page.
 
 The `createAirtableRecord` function accepts a `body` parameter, which conforms to the Airtable API's required format—namely, a JavaScript object containing key-value pairs under `fields`, representing a single record to be created on our table:
 
@@ -296,7 +296,7 @@ AIRTABLE_BASE_ID = "exampleBaseId"
 AIRTABLE_TABLE_NAME = "Form Submissions"
 ```
 
-With all these fields submitted, it's time to deploy your Workers serverless function, and get your form communicating with it. First, publish your function:
+With all these fields submitted, it's time to deploy your Workers serverless function and get your form communicating with it. First, publish your function:
 
 ```sh
 ---
