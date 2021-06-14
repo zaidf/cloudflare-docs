@@ -35,7 +35,7 @@ To recap the basics of HTML5 forms, a `form` element generally contains an `acti
 
 <Aside>
 
-If you're unfamiliar with HTML5 forms, the Mozilla Developer Network's ["Web Forms - Working with user data"](https://developer.mozilla.org/en-US/docs/Learn/Forms) is a great beginner's guide.
+If you are unfamiliar with HTML5 forms, the Mozilla Developer Network's ["Web Forms - Working with user data"](https://developer.mozilla.org/en-US/docs/Learn/Forms) is a great beginner's guide.
 
 </Aside>
 
@@ -88,7 +88,7 @@ If you'd like to follow along with this example, you can directly copy the `form
 
 ## Create a serverless function
 
-In order to handle the form submission, we'll create and deploy a Workers serverless function that parses the incoming form data and then prepares it for submission to Airtable.
+In order to handle the form submission, you will need to create and deploy a Workers serverless function that parses the incoming form data and then prepares it for submission to Airtable.
 
 To begin, use `wrangler` to generate a new function, called `airtable-form-handler`, and navigate to it in our terminal:
 
@@ -129,7 +129,7 @@ account_id = "yourAccountId"
 
 When our serverless function is completed, it will send data up to an Airtable base via Airtable's REST API.
 
-If you don't have an Airtable account, create one (the free plan is fine). In Airtable's dashboard, create a new base, choosing to "Start from scratch":
+If you don't have an Airtable account, create one (the free plan is fine). In Airtable's dashboard, create a new base, choosing to *Start from scratch*:
 
 ![Creating a new base in Airtable's user interface](./new-base.png)
 
@@ -158,7 +158,7 @@ Visit [Airtable's API page](https://airtable.com/api), and select your new base.
 
 ![The Airtable API documentation for a base, with the Airtable Base ID and a toggle for showing your Airtable API key highlighted](./api-details.png)
 
-Further down the page, you'll begin to see example requests, showing you how to authenticate with the Airtable API externally, by providing an `Authorization` header in the format `Bearer $API_KEY`. The key after `Bearer` is your Airtable API key—make sure to keep it a secret!
+Further down the page, you'll begin to see example requests, showing you how to authenticate with the Airtable API externally, by providing an `Authorization` header in the format `Bearer $API_KEY`. The key after `Bearer` is your Airtable API key—make sure to keep this private, and do not share your API key publicly.
 
 ![An example request in Airtable's API documentation, with the Airtable API key highlighted](./api-key.png)
 
