@@ -84,7 +84,7 @@ Some sample code is provided as an example below, including the first `input`, t
 </form>
 ```
 
-If you'd like to follow along with this example, you can directly copy the `form` code from the [`Form` component](https://github.com/signalnerve/workers-airtable-form/blob/main/frontend/src/Form.js) into your own project, or use the codebase and plug in your own serverless function, following the next section in the tutorial. 
+If you would like to follow along with this example, you can directly copy the `form` code from the [`Form` component](https://github.com/signalnerve/workers-airtable-form/blob/main/frontend/src/Form.js) into your own project, or use the codebase and plug in your own serverless function, following the next section in the tutorial. 
 
 ## Create a serverless function
 
@@ -102,7 +102,7 @@ $ cd airtable-form-handler
 
 <Aside>
 
-If you've chosen to work with the [sample codebase on GitHub](https://github.com/signalnerve/workers-airtable-form), you can find a sample function in the `worker` directory.
+If you have chosen to work with the [sample codebase on GitHub](https://github.com/signalnerve/workers-airtable-form), you can find a sample function in the `worker` directory.
 
 </Aside>
 
@@ -110,7 +110,7 @@ In `wrangler.toml`, add your Cloudflare account ID:
 
 <Aside>
 
-[Check out our Quick Start guide](https://developers.cloudflare.com/workers/get-started/guide#7-configure-your-project-for-deployment) if you're unsure where to find your Cloudflare Account ID.
+[Check out our Quick Start guide](https://developers.cloudflare.com/workers/get-started/guide#7-configure-your-project-for-deployment) if you are unsure where to find your Cloudflare Account ID.
 
 </Aside>
 
@@ -129,11 +129,11 @@ account_id = "yourAccountId"
 
 When our serverless function is completed, it will send data up to an Airtable base via Airtable's REST API.
 
-If you don't have an Airtable account, create one (the free plan is fine). In Airtable's dashboard, create a new base, choosing to *Start from scratch*:
+If you do not have an Airtable account, create one (the free plan is sufficient). In Airtable's dashboard, create a new base, choosing to _Start from scratch_:
 
 ![Creating a new base in Airtable's user interface](./new-base.png)
 
-Once you've created a new base, you can set it up for use with the front-end form. Delete the existing columns, and create six columns, with the following "field types":
+Once you have created a new base, you can set it up for use with the front-end form. Delete the existing columns, and create six columns, with the following "field types":
 
 | Field name   | Airtable field type |
 | ------------ | ------------------- |
@@ -144,7 +144,7 @@ Once you've created a new base, you can set it up for use with the front-end for
 | Subject      | "Single line text"  |
 | Message      | "Long text"         |
 
-The completed fields should look like the below screenshot in the Airtable UI. Note that the field names are case-sensitive: if you change them to anything else, you'll need to exactly match your new field names in the API request we make to Airtable later in the tutorial.
+The completed fields should look like the below screenshot in the Airtable UI. Note that the field names are case-sensitive: if you change them to anything else, you will need to exactly match your new field names in the API request we make to Airtable later in the tutorial.
 
 ![An example of the configured Airtable column headers in a table](./columns.png)
 
