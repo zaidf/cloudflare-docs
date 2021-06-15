@@ -60,7 +60,7 @@ If you are using your own player, replace the video id in the manifest url with 
 
 ### Customizing default restrictions
 
-If you call the `/token` endpoint without any body, it will return a token that expires in one hour. Let's say you want to let a user watch a particular video for the next 12 hours, here's how you'd do it with a Cloudflare Worker:
+If you call the `/token` endpoint without any body, it will return a token that expires in one hour. Let's say you want to let a user watch a particular video for the next 12 hours. Here's how you'd do it with a Cloudflare Worker:
 
 ```JavaScript
 addEventListener('fetch', event => {
