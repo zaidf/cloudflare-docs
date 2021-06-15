@@ -154,7 +154,7 @@ The response will return `pem` and `jwk` values.
  
  Save these values as they won't be shown again. You will use these values later to generate the tokens.
  
- ## Step 2: Generate tokens using the key
+ ### Step 2: Generate tokens using the key
  
 Once you generate the key in step 1, you can use the `pem` or `jwk` values to generate self-signing URLs on your own. Using this method, you do not need to call the Stream API each time you are creating a new token.
 
