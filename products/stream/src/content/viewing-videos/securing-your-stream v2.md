@@ -253,7 +253,7 @@ If you are using your own player, replace the video id in the manifest url with 
 
 | Property Name | Description |
 |------------------|-------------|
-| exp | expiration; a unix epoch timestamp after which the token will work |
+| exp | expiration; a unix epoch timestamp after which the token will stop working |
 | nbf | *not before* value; a unix epoch timestamp before which the token will not work |
 | downloadable | if true, the token can be used to download the mp4 (assuming the video has downloads enabled) |
 | accessRules | used to specify one or more ip and geo restrictions; accessRules are evaluated first-to-last. If a Rule matches, the associated action is applied and no further rules are evaluated. |
