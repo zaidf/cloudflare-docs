@@ -7,7 +7,7 @@ pcx-content-type: how-to
 
 ## Signed URLs / Tokens
 
-By default, videos on  Stream can be viewed by anyone at anytime if they have the video id. If you want to make your video private by default and only allow certain users access, you would use the signed URL feature. When you mark a video to require signed URL, it can no longer be accessed publicly with only the video id. Instead, the user will need a signed url token to watch or download the video.
+By default, videos on  Stream can be viewed by anyone with just a video id. If you want to make your video private by default and only give access to certain users, you can use the signed URL feature. When you mark a video to require signed URL, it can no longer be accessed publicly with only the video id. Instead, the user will need a signed url token to watch or download the video.
 
 Here are some common use cases for using signed URLs:
 
