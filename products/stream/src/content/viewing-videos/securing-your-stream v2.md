@@ -21,7 +21,7 @@ You can program your app to generate token in two ways:
 
 * **Using the /token endpoint to generate signed tokens:** The simplest way to create a signed url token is by calling the /token endpoint. This is recommended for testing purposes or if you are generating less than 10,000 tokens per day.
 
-* **Using an open-source library:** If you have tens of thousands of daily users and need to generate a high-volume of tokens without calling the /token endpoint *each time*, you can create a key *once* and create tokens. This way, you do not need to call a Stream endpoint every time you need to generate a token.
+* **Using an open-source library:** If you have tens of thousands of daily users and need to generate a high-volume of tokens without calling the /token endpoint *each time*, you can create tokens yourself. This way, you do not need to call a Stream endpoint each time you need to generate a token.
 
 ## Option 1: Using the /token endpoint
 
