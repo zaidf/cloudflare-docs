@@ -271,8 +271,6 @@ Depending on the rule type, accessRules support 2 additional properties:
 * `country`: an array of 2 letter country codes 
 * `ip`: an array of ip ranges
 
-Here are few examples:
-
 ***Example 1: Block views from a specific country***
 ```
 ...
