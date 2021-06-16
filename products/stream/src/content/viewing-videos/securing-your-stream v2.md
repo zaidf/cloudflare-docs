@@ -152,7 +152,7 @@ The response will return `pem` and `jwk` values.
 }
 ```
  
- Save these values as they won't be shown again. You will use these values later to generate the tokens.
+ Save these values as they won't be shown again. You will use these values later to generate the tokens. The pem and jwk fields are base64-encoded, you must decode them before using them (an example of this is shown in step 2). 
  
  ### Step 2: Generate tokens using the key
  
@@ -247,14 +247,29 @@ If you are using your own player, replace the video id in the manifest url with 
 
 `https://videodelivery.net/eyJhbGciOiJSUzI1NiIsImtpZCI6ImNkYzkzNTk4MmY4MDc1ZjJlZjk2MTA2ZDg1ZmNkODM4In0.eyJraWQiOiJjZGM5MzU5ODJmODA3NWYyZWY5NjEwNmQ4NWZjZDgzOCIsImV4cCI6IjE2MjE4ODk2NTciLCJuYmYiOiIxNjIxODgyNDU3In0.iHGMvwOh2-SuqUG7kp2GeLXyKvMavP-I2rYCni9odNwms7imW429bM2tKs3G9INms8gSc7fzm8hNEYWOhGHWRBaaCs3U9H4DRWaFOvn0sJWLBitGuF_YaZM5O6fqJPTAwhgFKdikyk9zVzHrIJ0PfBL0NsTgwDxLkJjEAEULQJpiQU1DNm0w5ctasdbw77YtDwdZ01g924Dm6jIsWolW0Ic0AevCLyVdg501Ki9hSF7kYST0egcll47jmoMMni7ujQCJI1XEAOas32DdjnMvU8vXrYbaHk1m1oXlm319rDYghOHed9kr293KM7ivtZNlhYceSzOpyAmqNFS7mearyQ/manifest/video.m3u8`
 
+### Revoking keys
+
+You can create up to 1,000 keys and rotate them at your convenience.
+Once revoked all tokens created with that key will be invalidated.
+
+```javascript
+// curl -X DELETE -H "Authorization: Bearer $TOKEN"  "https://api.cloudflare.com/client/v4/accounts/$ACCOUNT/stream/keys/$KEYID"
+
+{
+  "result": "Revoked",
+  "success": true,
+  "errors": [],
+  "messages": []
+}
+```
 ## Supported Restrictions
 
 <TableWrap>
 
 | Property Name | Description |
 |------------------|-------------|
-| exp | expiration; a unix epoch timestamp after which the token will stop working |
-| nbf | *not before* value; a unix epoch timestamp before which the token will not work |
+| exp | Expiration. A unix epoch timestamp after which the token will stop working. Cannot be greater than 24 hours in the future from when the token is signed|
+| nbf | *Not Before* value. A unix epoch timestamp before which the token will not work |
 | downloadable | if true, the token can be used to download the mp4 (assuming the video has downloads enabled) |
 | accessRules | used to specify one or more ip and geo restrictions; accessRules are evaluated first-to-last. If a Rule matches, the associated action is applied and no further rules are evaluated. |
 </TableWrap>
@@ -268,8 +283,9 @@ Each accessRule must include 2 required properties:
 
 Depending on the rule type, accessRules support 2 additional properties:
 
-* `country`: an array of 2 letter country codes 
-* `ip`: an array of ip ranges
+* `country`: an array of 2-letter country codes in [ISO 3166-1 Alpha 2](https://www.iso.org/obp/ui/#search) format.
+* `ip`: an array of ip ranges. It is recommended to include both IPv4 and IPv6 variants in a rule if possible. Having only a single variant in a rule means that rule will ignore the other variant. For example, an IPv4-based rule will never be applicable to a viewer connecting from an IPv6 address. CIDRs should be preferred over specific IP addresses. Some devices, such as mobile, may change their IP over the course of a view. Video Access Control are evaluated continuously while a video is being viewed. As a result, overly strict IP rules may disrupt playback.
+
 
 ***Example 1: Block views from a specific country***
 ```
@@ -312,5 +328,51 @@ The second rule is an IP rule matching on CIDRs, 93.184.216.0/24 and 2400:cb00::
 
 If the first two rules don't match, the final rule of any will match all remaining requests and block those views.
 
+## Security considerations
+
+### Hotlinking Protection
+
+By default, Stream embed codes can be used on any domain. If needed, you can limit the domains a video can be embedded on from the Stream dashboard.
+
+In the dashboard, you will see a text box by each video labeled `Enter allowed origin domains separated by commas`. If you click on it, you can list the domains that the Stream embed code should be able to be used on.
+
+  * `*.badtortilla.com` covers a.badtortilla.com, a.b.badtortilla.com and badtortilla.com
+  * `example.com` does not cover www.example.com or any subdomain of example.com
+  * `localhost` covers localhost at any port
+  * There's no path support - `example.com` covers example.com/*
+
+You can also control embed limitation programmatically using the Stream API. `uid` in the example below refers to the video id.
+
+```sh
+curl -X POST \
+-H "Authorization: Bearer $TOKEN" \
+-d "{\"uid\": \"$VIDEOID\", \"allowedOrigins\": [\"example.com\"]}" \
+https://api.cloudflare.com/client/v4/accounts/$ACCOUNT/stream/$VIDEOID
+
+```
+
+### Signed URLs
+
+Combining signed URLs with embedding restrictions allows you to strongly control how your videos are viewed. This lets you serve only trusted users while preventing the signed URL from being hosted on an unknown site.
+
+To do so
+
+1. Sign a token and use it in an embed code on your site
+1. Make the video private
+1. Restrict the viewing domains to your site
+
+### Content Security Policy (CSP) considerations
+
+Content Security Policy (CSP) is a layer of security that helps to detect and prevent certain types of cross site scripting and data injection attacks. Most common way servers set CSP information is through headers at your origin server.
+
+If you are using CSP, you will need to add all subdomains of `cloudflarestream.com` and `videodelivery.net` to your CSP policy in order for Stream to work.
+
+    Content-Security-Policy: default-src 'self' *.cloudflarestream.com *.videodelivery.net
+
+If CSP is misconfigured your videos might not play or you might see an error similar to the one below in your browser's JavaScript console.
+
+    Refused to load the script 'https://embed.cloudflarestream.com/embed/r4xu.fla9.latest.js' because it violates the following Content Security Policy directive: ...
+
+Read more about Content Security Policy at [Mozilla Developer Network](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP)
 
 
