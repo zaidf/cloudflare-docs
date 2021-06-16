@@ -391,18 +391,5 @@ To do so
 1. Make the video private
 1. Restrict the viewing domains to your site
 
-### Content Security Policy (CSP) considerations
-
-Content Security Policy (CSP) is a layer of security that helps to detect and prevent certain types of cross site scripting and data injection attacks. Most common way servers set CSP information is through headers at your origin server.
-
-If you are using CSP, you will need to add all subdomains of `cloudflarestream.com` and `videodelivery.net` to your CSP policy in order for Stream to work.
-
-    Content-Security-Policy: default-src 'self' *.cloudflarestream.com *.videodelivery.net
-
-If CSP is misconfigured your videos might not play or you might see an error similar to the one below in your browser's JavaScript console.
-
-    Refused to load the script 'https://embed.cloudflarestream.com/embed/r4xu.fla9.latest.js' because it violates the following Content Security Policy directive: ...
-
-Read more about Content Security Policy at [Mozilla Developer Network](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP)
 
 
