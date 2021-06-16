@@ -301,7 +301,7 @@ Once revoked all tokens created with that key will be invalidated.
 | exp | Expiration. A unix epoch timestamp after which the token will stop working. Cannot be greater than 24 hours in the future from when the token is signed|
 | nbf | *Not Before* value. A unix epoch timestamp before which the token will not work |
 | downloadable | if true, the token can be used to download the mp4 (assuming the video has downloads enabled) |
-| accessRules | used to specify one or more ip and geo restrictions; accessRules are evaluated first-to-last. If a Rule matches, the associated action is applied and no further rules are evaluated. |
+| accessRules | An array that specifies one or more ip and geo restrictions. accessRules are evaluated first-to-last. If a Rule matches, the associated action is applied and no further rules are evaluated. A token may have at most 5 members in the accessRules array. |
 </TableWrap>
 
 ### accessRules Schema
