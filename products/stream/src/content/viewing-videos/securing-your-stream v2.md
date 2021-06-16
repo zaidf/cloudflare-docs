@@ -15,6 +15,36 @@ Here are some common use cases for using signed URLs:
 * Let users watch your video for a limited time period (ie. 24 hours)
 * Restricting access based on geolocation 
 
+### Making a video require signed URLs
+
+Since video ids are effectively public within signed URLs, you will need to turn on `requireSignedURLs` on for your videos. This option will prevent any public links, such as `watch.cloudflarestream.com/$VIDEOID`, from working.
+
+Restricting viewing can be done by updating the video's metadata.
+
+```bash
+curl -X POST -H "Authorization: Bearer $TOKEN" "https://api.cloudflare.com/client/v4/accounts/$ACCOUNT/stream/$VIDEOID" -H "Content-Type: application/json" -d "{\"uid\": \"$VIDEOID\", \"requireSignedURLs\": true }"
+```
+
+Response:
+```json
+---
+highlight: [8]
+---
+
+
+{
+  "result": {
+    "uid": "$VIDEOID",
+    ...
+    "requireSignedURLS": true
+  },
+  "success": true,
+  "errors": [],
+  "messages": []
+}
+
+```
+
 ## Two Ways to Generate Signed Tokens
 
 You can program your app to generate token in two ways:
