@@ -100,7 +100,7 @@ addEventListener('fetch', event => {
 async function handleRequest(request) {
 
     var signed_url_restrictions = {
-        //limit viewing for the next 2 hours
+        //limit viewing for the next 12 hours
         exp: Math.floor(Date.now() / 1000) + (12*60*60) 
     };
 
