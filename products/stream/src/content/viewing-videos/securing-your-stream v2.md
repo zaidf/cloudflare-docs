@@ -385,11 +385,3 @@ https://api.cloudflare.com/client/v4/accounts/$ACCOUNT/stream/$VIDEOID
 
 Combining signed URLs with embedding restrictions allows you to strongly control how your videos are viewed. This lets you serve only trusted users while preventing the signed URL from being hosted on an unknown site.
 
-To do so
-
-1. Sign a token and use it in an embed code on your site
-1. Make the video private
-1. Restrict the viewing domains to your site
-
-
-
